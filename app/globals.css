@@ -1,26 +1,69 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+  /* Menambahkan custom timing function untuk animasi yang lebih mewah */
+  --ease-expo: cubic-bezier(0.19, 1, 0.22, 1);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+:root {
+  --background: #ffffff;
+  --foreground: #0f172a;
+}
+
+/* Penting: Agar next-themes bisa mendeteksi perubahan tema */
+.dark {
+  --background: #030303;
+  --foreground: #f8fafc;
+}
+
+/* Smooth scrolling untuk navigasi navbar */
+html {
+  scroll-behavior: smooth;
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-sans), ui-sans-serif, system-ui;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+}
+
+@layer base {
+  /* Sembunyikan kursor asli HANYA di desktop (min-width: 1024px) */
+  @media (min-width: 1024px) {
+    html, body, a, button, input, textarea {
+      cursor: none !important;
+    }
+  }
+}
+
+/* Utilitas tambahan untuk efek mewah */
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+  
+  /* Efek seleksi teks yang estetik */
+  ::selection {
+    background-color: rgba(37, 99, 235, 0.2);
+    color: #2563eb;
+  }
+}
+
+/* Jika kamu tidak menggunakan Framer Motion untuk kursor, 
+   baru gunakan class ini. Tapi karena kita pakai Framer Motion 
+   di Cursor.tsx, CSS di bawah ini hanya sebagai cadangan. */
+.custom-cursor-fallback {
+  width: 20px;
+  height: 20px;
+  background: rgba(37, 99, 235, 0.5);
+  border-radius: 50%;
+  position: fixed;
+  pointer-events: none;
+  z-index: 9999;
+  mix-blend-mode: difference; /* Bikin kursor berubah warna tergantung background */
 }
